@@ -1,45 +1,187 @@
-import React, {useState} from 'react'
+// TextForm.js
+
+import React, { useState } from 'react'
 
 export default function TextForm(props) {
-    const ClickToClear=()=>{
-        let newText="";
-        SetText(newText);
-        props.showAlert("Text is Cleared","success");
-    }
-    const handleUpClick=()=>{
-    
-        let newText=text.toUpperCase();
-        SetText(newText);
-        props.showAlert("Converted To Upper Case","success");
-    }
-    const handleLowerClick=()=>{
-        let newText=text.toLowerCase();
-        SetText(newText);
-       props.showAlert("Converted To Lower Case","success");
-    }
-    const HandleOnChange=(event)=>{
-        SetText(event.target.value);
-    }
-    const[text,SetText]=useState('Enter the Text');
-  return (
-    <>
-    <div className="container" style={{color:props.mode==='dark'?'black':'white'}}>
-        <h1>{props.heading}</h1>
-      <div className="mb-3">
-  
-  <textarea className="form-control" value={text} onChange={HandleOnChange} style={{backgroundColor:props.mode==='dark'?'white':'black',color:props.mode==='dark'?'black':'white'}} id="exampleFormControlTextarea1" rows="8"></textarea>
-</div>
-<button className="btn btn-primary mx-2 my-2" onClick={handleUpClick}>Convert To Upper Case</button>
-<button className="btn btn-primary mx-2 my-2" onClick={handleLowerClick}>Convert To Lower Case</button>
-<button type="button" className="btn btn-success mx-2 my-2"onClick={ClickToClear}>Clear Text</button>
-    </div>
-    <div className="container my-2" style={{color:props.mode==='dark'?'black':'white'}}>
-       <h2>Text Summary</h2>
-       <p> {text.split(" ").filter((element)=>{return element.length!==0}).length} words and {text.length} characters</p>
-       <p>{0.008*text.split(" ").length}Minutes To Read</p>
-       <h1>Preview</h1>
-       <p>{text.length>0?text:'Enter the text to preview'}</p>
-    </div>
-    </>
-  )
+	const ManageUpClick =
+		() => {
+			let newElement =
+				word.toUpperCase();
+			setWord(newElement);
+			props.showAlert(
+				"Converted to UpperCase",
+				"success"
+			);
+		}
+	const ManageLoClick =
+		() => {
+			let newElement =
+				word.toLowerCase();
+			setWord(newElement);
+			props.showAlert(
+				"Converted to LowerCase",
+				"success"
+			);
+		}
+	const ManageAllClick =
+		() => {
+			let newElement = '';
+			setWord(newElement);
+			props.showAlert(
+				"Cleared word",
+				"success"
+			);
+		}
+	const ManageAllCopy =
+		() => {
+			var word =
+				document.getElementById("myBox");
+			word.select();
+			navigator.clipboard
+				.writeText(word.value);
+			props.showAlert("All Copied", "success");
+		}
+	const ManageAllSpace =
+		() => {
+			let newElement =
+				word.split(/[ ]+/);
+			setWord(newElement.join(" "));
+			props.showAlert(
+				"Cleared Space",
+				"success"
+			);
+		}
+	const ManageReverseWord =
+		() => {
+			const reversedWords =
+				word.split(' ')
+					.map(
+						word =>
+							word.split('')
+								.reverse()
+								.join('')).join(' ');
+			setWord(reversedWords);
+			props.showAlert(
+				"Reverse word",
+				"success"
+			);
+		}
+	const ManageReverseSentence =
+		() => {
+			const reversedSentence =
+				word.split(' ')
+					.reverse().join(' ');
+			setWord(reversedSentence);
+			props.showAlert(
+				"Reverse Sentence",
+				"success"
+			);
+		}
+	const ManageOnChange =
+		(events) => {
+			console.log("On Change");
+			setWord(events.target.value);
+		}
+	const [word, setWord] = useState('');
+	return (
+		<>
+			<div className="container"
+				style=
+				{
+					{
+						color: props.mode === 'dark' ?
+							'white' : 'black'
+					}
+				}>
+				<h1>{props.heading}</h1>
+				<div className="mb-3">
+					<textarea className="form-control"
+						value={word} onChange={ManageOnChange}
+						style={
+							{
+								backgroundColor:
+									props.mode === 'dark' ?
+										'#313142' : 'white',
+								color:
+									props.mode === 'dark' ?
+										'white' : 'black'
+							}} id="myBox" rows="8"></textarea>
+				</div>
+				<button disabled={word.length === 0}
+					className="btn btn-danger mx-2 my=1"
+					onClick={ManageUpClick}>
+					UPPER CASE
+				</button>
+				<button disabled={word.length === 0}
+					className="btn btn-dark mx-2 my=1"
+					onClick={ManageLoClick}>
+					lower case
+				</button>
+				<button disabled={word.length === 0}
+					className="btn btn-success mx-2 my=1"
+					onClick={ManageAllClick}>
+					Clear All
+				</button>
+				<button disabled={word.length === 0}
+					className="btn btn-primary mx-2 my=1"
+					onClick={ManageAllCopy}>
+					Copy to clipboard
+				</button>
+				<button disabled={word.length === 0}
+					className="btn btn-warning mx-2 my=1"
+					onClick={ManageAllSpace}>
+					Clear Space
+				</button>
+				<button disabled={word.length === 0}
+					className="btn btn-info mx-2 my=1"
+					onClick={ManageReverseWord}>
+					Reverse Word
+				</button>
+				<button disabled={word.length === 0}
+					className="btn btn-primary mx-2 my=1"
+					onClick={ManageReverseSentence}>
+					Reverse Sentence
+				</button>
+			</div>
+			<div className="container my-3"
+				style=
+				{
+					{
+						color: props.mode ===
+							'dark' ?
+							'white' : 'black'
+					}}>
+				<h2>Word Summary</h2>
+				<p>
+					{
+						word.split(" ").filter(
+							(element) => { return element.length !== 0 })
+							.length
+					} words and
+					{word.length}
+					character
+				</p>
+				<p>
+					{
+						0.008 * word.split(" ")
+							.filter(
+								(element) => {
+									return element.length !== 0
+								}
+							).length
+					}
+					Minutes read
+				</p>
+				<h2>Preview</h2>
+				<p>
+					{
+						word.length >
+							0 ?
+							word :
+							"Enter the word to Preview"
+					}
+				</p>
+			</div>
+		</>
+	);
 }

@@ -1,61 +1,56 @@
-import "./App.css";
-import About from "./Components/About";
-import Navbar from "./Components/Navbar";
-import TextForm from "./Components/TextForm";
-import React, { useState } from "react";
-import Alert from "./Components/Alert";
+// App.js
 
-import Design from "./Components/Design";
-import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
+import './App.css';
+import Navbar from './Components/Navbar';
+import TextForm from './Components/TextForm';
+import React, { useState } from 'react'
+import Alert from './Components/Alert';
 
 function App() {
-  const [mode, setmode] = useState("light");
-  const [alert, setAlert] = useState("Hi");
-  const [heading, setHeading] = useState("Enter Your Text Here");
-  const showHeading = () => {
-    if (mode === "dark") {
-      setHeading("white");
-    }
-  };
-  const showAlert = (message, type) => {
-    setAlert({
-      msg: message,
-      type: type,
-    });
-    setTimeout(() => {
-      setAlert(null);
-    }, 3000);
-  };
-  const toggleMode = () => {
-    if (mode === "light") {
-      setmode("dark");
-      document.body.style.backgroundColor = "white";
-      showAlert("Light Mode is Enabled", "success");
-      document.title = "My App- Light Mode";
-    } else {
-      setmode("light");
-      document.body.style.backgroundColor = "#113852";
-      showAlert("Dark Mode is Enabled", "success");
-      document.title = "My App-Dark Mode";
-    }
-  };
-  return (
-    <>
-     
-        <Navbar title="TextUtils" mode={mode} toggleMode={toggleMode} />
-        
+	// < !--Using the React hook for 
+	// the dark Mode functionality-- >
+	const [mode, setMode] = useState('light');
+	const [attension, setAttension] = useState(null)
+	const showAlert =
+		(message, type) => {
+			setAttension({
+				msg: message,
+				type: type
+			});
+			setTimeout(() => {
+				setAttension(null);
+			}, 2000);
+		}
 
-        <Alert alert={alert}></Alert>
-        
-        <Design></Design>
-          
-          <TextForm showAlert={showAlert} heading={heading} mode={mode} />
-         
-        {<div className="container my-4"></div>}
-     
-      <About />
-    </>
-  );
+	// < !--Enable the dark mode-- >
+	const toggleMode = () => {
+		if (mode === 'light') {
+			setMode('dark');
+			document.body
+				.style.backgroundColor = 
+					'rgb(110 118 131)';
+			showAlert("Dark Mode", "success");
+		} else {
+			setMode('light')
+			document.body
+				.style.backgroundColor = 'white';
+			showAlert("Light Mode", "success");
+		}
+	}
+	return (
+		<>
+			<Navbar title="TextConverter"
+				mode={mode}
+				toggleMode={toggleMode} />
+			<Alert attension={attension} />
+			<div className="container my-3">
+				{
+					<TextForm showAlert={showAlert}
+						heading="Enter the text to analyze below"
+						mode={mode} />
+				}
+			</div>
+		</>
+	);
 }
-
 export default App;
